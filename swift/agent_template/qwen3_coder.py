@@ -13,7 +13,11 @@ def render_extra_keys(obj, handled_keys):
     if isinstance(obj, dict):
         for key, value in obj.items():
             if key not in handled_keys:
-                result += f'\n<{key}>{json.dumps(value, ensure_ascii=False)}</{key}>'
+                if isinstance(value, (dict, list)):
+                    rendered = json.dumps(value, ensure_ascii=False)
+                else:
+                    rendered = str(value)
+                result += f'\n<{key}>{rendered}</{key}>'
     return result
 
 
